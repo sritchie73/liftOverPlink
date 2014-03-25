@@ -36,6 +36,19 @@ between different genome builds. These can be found at the
 [7]: http://hgdownload.cse.ucsc.edu/downloads.html
 
 ---
+## Change Log
+
+[liftOverPlink](liftOverPlink.py) is modified from the [liftMap.py][5] 
+script provided by the [Abecasis Lab][4] to:
+ - Take a user specified chain file.
+ - To look for liftOver in `$PATH` or a user specified location, rather
+   than the original developer's specific download location.
+ - Provide usage documentation and help messages.
+ - To clean up the left over `BED` files to avoid confusion.
+
+The core functionality and algorithms remain identical to [liftMap.py][5].
+
+---
 ## Usage
 
 ```
