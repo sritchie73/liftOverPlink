@@ -33,6 +33,7 @@ def myopen(fn):
     return gzip.open(fn)
 
 def map2bed(fin, fout):
+    print "Converting MAP file to UCSC BED file..."
     fo = open(fout, 'w')
     for ln in myopen(fin):
         chrom, rs, mdist, pos = ln.split()
@@ -46,6 +47,7 @@ def map2bed(fin, fout):
 LIFTED_SET = set()
 UNLIFTED_SET = set()
 def liftBed(fin, fout, funlifted, chainFile, liftOverPath):
+    print "Lifting BED file..."
     params = dict()
     params['LIFTOVER_BIN'] = liftOverPath
     params['OLD'] = fin
@@ -66,6 +68,7 @@ def liftBed(fin, fout, funlifted, chainFile, liftOverPath):
     return True
 
 def bed2map(fin, fout):
+    print "Converting lifted BED file back to MAP..."
     fo = open(fout, 'w')
     for ln in myopen(fin):
         chrom, pos0, pos1, rs = ln.split()
@@ -97,6 +100,7 @@ def liftPed(fin, fout, fOldMap):
     # print marker[:10]
     # print flag[:10]
     fo = open(fout, 'w')
+    print "Updating PED file..."
     for ln in myopen(fin):
         f = ln.strip().split()
         l = len(f)
@@ -178,4 +182,8 @@ if __name__ == '__main__':
         newPed = args.prefix + '.ped'
         makesure(liftPed(args.pedFile, newPed, args.mapFile),
                  'liftPed succ')
+
+    print "cleaning up BED files..."
+    os.remove(newBed)
+    os.remove(oldBed)
 
