@@ -11,9 +11,9 @@ Cruz (UCSC) as part of their [Genome Browser][2].
     versions.
 
 The [LiftOver][1] does not work natively with genotype data stored in
-the commonly used [plink][3] data formats. The [Abecasis Lab][4] at the 
+the commonly used [plink data formats][3]. The [Abecasis Lab][4] at the 
 University of Michigan has developed a [rudimentary wrapper][5] in the form
-of a python script to work with [plink][3] data stored in the `PED` and `MAP`
+of a python script to work with plink data stored in the `PED` and `MAP`
 formats.
 
 This repository provides a more polished commandline tool for this task: 
