@@ -10,8 +10,8 @@ Cruz (UCSC) as part of their [Genome Browser][2].
  3. Converting both the genome position, and dbSNP rs ID over different
     versions.
 
-The [LiftOver][1] does not work natively with genotype data in stored 
-in the commonly used [plink][3]. The [Abecasis Lab][4] at the 
+The [LiftOver][1] does not work natively with genotype data stored in
+the commonly used [plink][3] data formats. The [Abecasis Lab][4] at the 
 University of Michigan has developed a [rudimentary wrapper][5] in the form
 of a python script to work with [plink][3] data stored in the `PED` and `MAP`
 formats.
