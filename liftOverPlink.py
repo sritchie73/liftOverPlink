@@ -6,13 +6,16 @@
 # Downloaded from: http://genome.sph.umich.edu/wiki/LiftMap.py
 #
 # Modified by Scott Ritchie:
-#  - to work with user specified chain files,
-#  - to not rely on some random guy's path to liftOver.
+#  - to work with user specified chain files, rather than
+#    the original developer's specific chain file.
+#  - to not rely the original developer's path to liftOver.
 #  - to provide helpful usage documentation.
+#  - to clean up the intermediary BED files to avoid confusion.
 #  - to generally be slightly more PEP compliant.
-#
+# 
 
-import sys, os
+import sys
+import os
 import argparse
 import gzip
 from string import Template
