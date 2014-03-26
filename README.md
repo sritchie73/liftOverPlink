@@ -106,3 +106,51 @@ optionally specify a location for [liftOverPlink](liftOverPlink.py) to
 call it from using the `--bin` argument.
 
 [8]: http://genome.sph.umich.edu/wiki/LiftOver#Various_reasons_that_lift_over_could_fail
+
+---
+## Addtional Tools
+
+### Removing bad lifted SNPs
+In the case of lifting from build hg19 to hg38, some of the SNPs that
+get lifted have "bad" Chromosomes, like "22_KI270879v1_alt" for example.
+[rmBadLifts](rmBadLifts.py) is designed to handle this case: it removes
+these SNPs from the `MAP` file, and creates a file (`--log`) containing
+a list of these rsIDs:
+
+**Usage**
+
+```
+usage: rmBadLifts.py [-h] -m MAPFILE -o OUTFILE -l LOGFILE
+
+rmBadLifts.py goes through a plink MAP file, identifies and removes SNPs not
+on chromosomes 1 to 22
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -m MAPFILE, --map MAPFILE
+                        MAP file to process.
+  -o OUTFILE, --out OUTFILE
+                        New MAP file to output.
+  -l LOGFILE, --log LOGFILE
+                        File to output the bad rsIDs to.
+```
+
+**Workflow**
+
+The workflow when handling these SNPs is complicated:
+ 1. Create a "lifted" `MAP` file.
+ 2. Remove bad lifted SNPs from that `MAP` file.
+ 3. Generate a good `PED` file by excluding "unlifted", and bad
+    "lifted" SNPs.
+ 4. Combine the fixed `PED` file, with the fixed `MAP` file.
+
+On Linux this would look something like:
+
+```bash
+python liftOverPlink.py --map genotypes --out lifted --chain hg19ToHg38.over.chain.gz
+python rmBadLifts.py --map lifted.map --out good_lifted.map --log bad_lifted.dat
+cut -f 4 lifted.unlifted | sed "/^#/d" >> bad_lifted.dat  # Add the unlifted rsIDs to bad_lifted.dat
+plink --file genotypes --recode --out lifted --exclude bad_lifted.dat # this will clobber MAP file from `liftOverPlink`
+plink --ped lifted.ped --map good_lifted.map --recode --out final
+```
+
